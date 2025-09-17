@@ -12,7 +12,7 @@ def analyze_algorithm(func,  *args, visualize: bool = True, delay: float = 0.02)
     func(*args, visualize=visualize, delay=delay)
 
     start_time = time.perf_counter()
-    result = func(*args, visualize=False)
+    result = func(*args, visualize=False, delay=delay)
     end_time = time.perf_counter()
 
     return {
@@ -155,6 +155,45 @@ def quick_sort(arr: list, l: int = 0, r: int = None, visualize: bool = True, del
 
     return arr
 
+def build_max_heap(arr: list) -> list:
+    n = len(arr)
+
+    for i in range(n//2, -1, -1):
+        arr = max_heapify(arr, n, i)
+
+    return arr
+
+def max_heapify(arr: list, n: int, i: int) -> list:
+    l = 2 * i
+    r = 2 * i + 1
+
+    largest = i
+
+    if l < n and arr[l] > arr[i]:
+        largest = l
+
+    if r < n and arr[r] > arr[largest]:
+        largest = r
+
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        arr = max_heapify(arr, n, largest)
+
+    return arr
+    
+def heap_sort(arr: list, visualize: bool, delay: float) -> list:
+    global operation_count
+    operation_count = 0
+
+    arr = build_max_heap(arr)
+    n = len(arr)
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]
+        draw(arr, screen, delay) if visualize else None
+        max_heapify(arr, i, 0)
+
+    return arr
+
 
 def random_array(length: int) -> list:
     arr = list(range(1, length + 1))
@@ -167,9 +206,9 @@ if __name__ == "__main__":
 
     screen = pygame.display.set_mode((1280, 720))
 
-    unsorted_arr = random_array(500)
+    unsorted_arr = random_array(200)
 
-    stats = analyze_algorithm(quick_sort, unsorted_arr, delay=0.03)
+    stats = analyze_algorithm(heap_sort, unsorted_arr, delay=0.03)
     print("time "+ str(stats["time"]))
     print("operations "+ str(stats["operations"]))
 

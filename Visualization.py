@@ -6,7 +6,7 @@ import time
 pygame.init()
 pygame.midi.init()
 player = pygame.midi.Output(1)
-player.set_instrument(24)
+player.set_instrument(12)
 
 def draw(arr: list, screen, delay: float) -> None:
 
