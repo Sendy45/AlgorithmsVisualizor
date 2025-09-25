@@ -2,9 +2,6 @@
 import pygame.midi
 import pygame
 import time
-from Algorithms import *
-
-from Algorithms import run_sort_visualizer
 
 # pygame setup
 pygame.init()
@@ -16,8 +13,8 @@ def draw(arr: list, screen, delay: float) -> None:
 
     screen.fill("black")
 
-    rec_width = screen.get_width() / (1 * len(arr))
-    rec_height = screen.get_height() / (1 * len(arr))
+    rec_width = screen.get_width() / len(arr)
+    rec_height = screen.get_height() / len(arr)
 
     for i, item in enumerate(arr):
         #rec = pygame.Rect(0, i * rec_height, rec_width * item, rec_height) # verical
@@ -38,5 +35,5 @@ def draw(arr: list, screen, delay: float) -> None:
     pygame.event.pump()
 
 
-    player.note_on(60, 120)
+    player.note_on(60, 100)
     time.sleep(delay)
