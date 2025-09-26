@@ -18,6 +18,7 @@ def analyze_algorithm(func, arr: list, visualize: bool = True, delay: float = 0.
     end_time = time.perf_counter()
 
     return {
+        "sorting algorithm": func.__name__,
         "result": result,  # sorted result
         "time": end_time - start_time,  # elapsed time
     }
@@ -30,12 +31,13 @@ def random_array(length: int) -> list:
     return arr
 
 
-def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = True, delay: float = 0.01) -> list:
+def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = True, delay: float = 0.01):
     arr_length %= SCREEN_WIDTH # Prevent more columns than pixels on screen
     unsorted_arr = random_array(arr_length)  # create random array
 
     # analyze heap_sort
     stats = analyze_algorithm(ALGORITHMS[algorithm_idx], unsorted_arr, visualize = visualize, delay=delay)
+    print(stats["sorting algorithm"])
     print("time " + str(stats["time"]))
     print(stats["result"])
 
@@ -59,6 +61,7 @@ def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = T
                     algorithm_idx += 1
                     algorithm_idx %= len(ALGORITHMS)
                     run_sort_visualizer(arr_length, algorithm_idx)
+                elif event.key == pygame.K_LEFT:
                     algorithm_idx -= 1
                     algorithm_idx %= len(ALGORITHMS)
                     run_sort_visualizer(arr_length, algorithm_idx)
@@ -67,7 +70,7 @@ def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = T
 if __name__ == "__main__":
 
     arr_length = 100
-    algorithm_idx = 1
+    algorithm_idx = -1
 
     run_sort_visualizer(arr_length, algorithm_idx)
 

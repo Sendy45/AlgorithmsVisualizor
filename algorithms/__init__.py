@@ -5,7 +5,9 @@ from .Algorithms import (
     merge_sort,
     heap_sort,
     quick_sort,
-    counting_sort
+    counting_sort,
+    radix_sort,
+    cocktail_shaker_sort
 )
 
 __all__ = [
@@ -16,6 +18,8 @@ __all__ = [
     "heap_sort",
     "quick_sort",
     "counting_sort",
+    "radix_sort",
+    "cocktail_shaker_sort",
     "ALGORITHMS"
 ]
 
@@ -26,5 +30,7 @@ ALGORITHMS = [
     merge_sort,
     quick_sort,
     heap_sort,
-    counting_sort
+    counting_sort,
+    radix_sort,
+    cocktail_shaker_sort
 ]

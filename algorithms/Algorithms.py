@@ -198,8 +198,8 @@ def counting_sort(arr: list, visualize: bool, delay: float) -> list:
     if n == 0: return arr
 
     # Find the maximum value to define the counting array size
-    max_value = max(arr)
-    counting = [0] * (max_value + 1) # initialize counting array
+    max_val = max(arr)
+    counting = [0] * (max_val + 1) # initialize counting array
 
     # Count occurrences of each value
     for item in arr:
@@ -218,8 +218,8 @@ def counting_sort(arr: list, visualize: bool, delay: float) -> list:
 
     return arr
 
-def cocktail_shaker_sort(arr: list, visualize: bool, delay: float) -> list:
-    # TODO: implement cocktail sort here
+def bucket_sort(arr: list, visualize: bool, delay: float) -> list:
+    # TODO: implement bucket sort here
 
     return arr
 
@@ -233,11 +233,39 @@ def tim_sort(arr: list, visualize: bool, delay: float) -> list:
 
     return arr
 
+# Radix sort - O(d * (n + k))
 def radix_sort(arr: list, visualize: bool, delay: float) -> list:
+
+    def get_digit(num: int, place: int) -> int:
+        return num // (10 ** place) % 10
+
     n = len(arr)
+    max_val = max(arr)
+    d = len(str(max_val))
 
-    #for i in range(n):
+    for d_idx in range(d):
+        # Counting sort for this digit
+        counting = [0] * 10
+        output_arr = [0] * n
 
+        # Count occurrences of each digit
+        for item in arr:
+            digit = get_digit(item, d_idx)
+            counting[digit] += 1
+
+        # Prefix sum → convert to positions
+        for i in range(1, 10):
+            counting[i] += counting[i - 1]
+
+        # Build output array (right to left to keep positions)
+        for i in range(n - 1, -1, -1):
+            digit = get_digit(arr[i], d_idx)
+            counting[digit] -= 1
+            output_arr[counting[digit]] = arr[i]
+
+            draw(output_arr, SCREEN, delay) if visualize else None
+
+        arr = output_arr[:]
 
     return arr
 
@@ -246,8 +274,29 @@ def comb_sort(arr: list, visualize: bool, delay: float) -> list:
 
     return arr
 
-def bucket_sort(arr: list, visualize: bool, delay: float) -> list:
-    # TODO: implement bucket sort here
+def cocktail_shaker_sort(arr: list, visualize: bool, delay: float) -> list:
+    n = len(arr)
+
+    left = 0
+    right = n - 1
+    while left < right:
+        swapped = False
+        for j in range(left, right):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+                draw(arr, SCREEN, delay) if visualize else None
+        right -= 1
+
+        for j in range(right, left, -1):
+            if arr[j] < arr[j - 1]:
+                arr[j], arr[j - 1] = arr[j - 1], arr[j]
+                swapped = True
+                draw(arr, SCREEN, delay) if visualize else None
+        left += 1
+
+        if not swapped:
+            break
 
     return arr
 
