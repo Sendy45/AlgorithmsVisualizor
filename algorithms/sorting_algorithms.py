@@ -1,7 +1,7 @@
 from Visualization import draw
 import pygame
 from random import shuffle
-from config import SCREEN
+from config import SCREEN, restart_run
 
 # Bubble sort - O(n^2)
 def bubble_sort(arr: list, visualize: bool, delay: float) -> list:
@@ -15,6 +15,7 @@ def bubble_sort(arr: list, visualize: bool, delay: float) -> list:
             if arr[j] > arr[j + 1]:  # swap if out of order
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 draw(arr, SCREEN, delay) if visualize else None
+
                 swapped = True
 
         if not swapped:  # stop if array already sorted

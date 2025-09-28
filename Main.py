@@ -1,15 +1,16 @@
 import pygame
 from random import shuffle
 import time
+
 pygame.init()
-from config import *
+import config
 from algorithms import ALGORITHMS
+from Visualization import event_handler
 
 # Wrapper function to analyze algorithm
 # Counts operations, execution time, and returns result
 def analyze_algorithm(func, arr: list, visualize: bool = True, delay: float = 0.02) -> dict:
 
-    # Run algorithm once (with visualization, if enabled)
     func(arr.copy(), visualize=visualize, delay=delay)
 
     # Time counting (measure performance without visualization)
@@ -32,46 +33,30 @@ def random_array(length: int) -> list:
 
 
 def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = True, delay: float = 0.01):
-    arr_length %= SCREEN_WIDTH # Prevent more columns than pixels on screen
-    unsorted_arr = random_array(arr_length)  # create random array
 
-    # analyze heap_sort
-    stats = analyze_algorithm(ALGORITHMS[algorithm_idx], unsorted_arr, visualize = visualize, delay=delay)
-    print(stats["sorting algorithm"])
-    print("time " + str(stats["time"]))
-    print(stats["result"])
+    while True:  # loop until the user closes the window
+        config.restart_run = False  # reset the restart flag
+        config.arr_length %= config.SCREEN_WIDTH
+        config.algorithm_idx %= len(ALGORITHMS)
 
-    # event loop (keeps window open until closed)
-    running = True
-    while running:
-        # wait for event
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                raise SystemExit
+        unsorted_arr = random_array(config.arr_length)
 
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    arr_length += 100
-                    run_sort_visualizer(arr_length, algorithm_idx)
-                elif event.key == pygame.K_DOWN:
-                    arr_length -= 100
-                    run_sort_visualizer(arr_length, algorithm_idx)
-                elif event.key == pygame.K_RIGHT:
-                    algorithm_idx += 1
-                    algorithm_idx %= len(ALGORITHMS)
-                    run_sort_visualizer(arr_length, algorithm_idx)
-                elif event.key == pygame.K_LEFT:
-                    algorithm_idx -= 1
-                    algorithm_idx %= len(ALGORITHMS)
-                    run_sort_visualizer(arr_length, algorithm_idx)
+        # Run algorithm
+        stats = analyze_algorithm(ALGORITHMS[config.algorithm_idx], unsorted_arr, visualize=visualize, delay=delay)
+        print(stats["sorting algorithm"])
+        print("time " + str(stats["time"]))
+        print(stats["result"])
+
+        # Wait for user input
+        waiting = True
+        while waiting:
+            event_handler()
+            if config.restart_run:
+                waiting = False  # user pressed a key → exit wait and rerun
 
 
 if __name__ == "__main__":
 
-    arr_length = 100
-    algorithm_idx = -1
-
-    run_sort_visualizer(arr_length, algorithm_idx)
+    run_sort_visualizer(config.arr_length, config.algorithm_idx, delay=config.delay)
 
     pygame.quit()

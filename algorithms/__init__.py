@@ -1,4 +1,4 @@
-from .Algorithms import (
+from .sorting_algorithms import (
     bubble_sort,
     selection_sort,
     insertion_sort,
@@ -9,6 +9,18 @@ from .Algorithms import (
     radix_sort,
     cocktail_shaker_sort
 )
+
+ALGORITHMS = [
+    bubble_sort,
+    selection_sort,
+    insertion_sort,
+    merge_sort,
+    quick_sort,
+    heap_sort,
+    counting_sort,
+    radix_sort,
+    cocktail_shaker_sort
+]
 
 __all__ = [
     "bubble_sort",
@@ -21,16 +33,4 @@ __all__ = [
     "radix_sort",
     "cocktail_shaker_sort",
     "ALGORITHMS"
-]
-
-ALGORITHMS = [
-    bubble_sort,
-    selection_sort,
-    insertion_sort,
-    merge_sort,
-    quick_sort,
-    heap_sort,
-    counting_sort,
-    radix_sort,
-    cocktail_shaker_sort
 ]
