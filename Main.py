@@ -5,7 +5,7 @@ import time
 pygame.init()
 import config
 from algorithms import ALGORITHMS
-from Visualization import event_handler
+from visualization.Visualization import event_handler
 
 # Wrapper function to analyze algorithm
 # Counts operations, execution time, and returns result

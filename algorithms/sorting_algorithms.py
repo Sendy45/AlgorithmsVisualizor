@@ -1,7 +1,9 @@
-from Visualization import draw
-import pygame
+import math
+
+from visualization.Visualization import draw
 from random import shuffle
-from config import SCREEN, restart_run
+from config import SCREEN
+
 
 # Bubble sort - O(n^2)
 def bubble_sort(arr: list, visualize: bool, delay: float) -> list:
@@ -14,7 +16,7 @@ def bubble_sort(arr: list, visualize: bool, delay: float) -> list:
 
             if arr[j] > arr[j + 1]:  # swap if out of order
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                draw(arr, SCREEN, delay) if visualize else None
+                draw(arr, delay) if visualize else None
 
                 swapped = True
 
@@ -37,7 +39,7 @@ def selection_sort(arr: list, visualize: bool, delay: float) -> list:
 
         # place smallest element at position i
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
-        draw(arr, SCREEN, delay) if visualize else None
+        draw(arr, delay) if visualize else None
 
     return arr
 
@@ -53,12 +55,12 @@ def insertion_sort(arr: list, visualize: bool, delay: float) -> list:
 
             # shift element right
             arr[current_idx] = arr[current_idx - 1]
-            draw(arr, SCREEN, delay) if visualize else None
+            draw(arr, delay) if visualize else None
             current_idx -= 1
 
         # place key in correct position
         arr[current_idx] = key
-        draw(arr, SCREEN, delay) if visualize else None
+        draw(arr, delay) if visualize else None
 
     return arr
 
@@ -93,7 +95,7 @@ def merge_sort(arr: list, l: int = 0, r: int | None = None, visualize: bool = Tr
         else:
             arr[k] = R[j]
             j += 1
-        draw(arr, SCREEN, delay) if visualize else None
+        draw(arr, delay) if visualize else None
         k += 1
 
     # copy remaining L
@@ -101,14 +103,14 @@ def merge_sort(arr: list, l: int = 0, r: int | None = None, visualize: bool = Tr
         arr[k] = L[i]
         i += 1
         k += 1
-        draw(arr, SCREEN, delay) if visualize else None
+        draw(arr, delay) if visualize else None
 
     # copy remaining R
     while j < len(R):
         arr[k] = R[j]
         j += 1
         k += 1
-        draw(arr, SCREEN, delay) if visualize else None
+        draw(arr, delay) if visualize else None
 
     return arr
 
@@ -136,7 +138,7 @@ def quick_sort(arr: list, l: int = 0, r: int = None, visualize: bool = True, del
     # put partitioned elements back
     arr[l:r + 1] = L + [pivot] + R
 
-    draw(arr, SCREEN, delay) if visualize else None
+    draw(arr, delay) if visualize else None
 
     # recursively sort left and right partitions
     quick_sort(arr, l, l + len(L) - 1, visualize, delay)  # left side
@@ -186,7 +188,7 @@ def heap_sort(arr: list, visualize: bool, delay: float) -> list:
     n = len(arr)
     for i in range(n - 1, 0, -1):
         arr[i], arr[0] = arr[0], arr[i]  # swap root with last
-        draw(arr, SCREEN, delay) if visualize else None
+        draw(arr, delay) if visualize else None
         max_heapify(arr, i, 0)  # restore heap property
 
     return arr
@@ -213,19 +215,56 @@ def counting_sort(arr: list, visualize: bool, delay: float) -> list:
             arr[i] = j
             counting[j] -= 1
             i += 1
-            draw(arr, SCREEN, delay) if visualize else None
+            draw(arr, delay) if visualize else None
         else:
             j += 1 # move to the next number
 
     return arr
 
 def bucket_sort(arr: list, visualize: bool, delay: float) -> list:
-    # TODO: implement bucket sort here
+    n = len(arr)
+    k = int(math.sqrt(n))
+
+    buckets = [[] for _ in range(k + 1)]
+
+    for item in arr:
+        i = min(item//k, k)
+        buckets[i].append(item)
+
+    if not buckets[-1]: del buckets[-1]
+
+    for bucket in buckets:
+        bucket_len = len(bucket)
+
+        for i in range(1, bucket_len):
+            key = bucket[i]  # current element to insert
+            current_idx = i
+            while current_idx != 0 and key < bucket[current_idx - 1]:
+                # shift element right
+                bucket[current_idx] = bucket[current_idx - 1]
+                current_idx -= 1
+
+            # place key in correct position
+            bucket[current_idx] = key
+            arr = [item for bucket in buckets for item in bucket]
+            draw(arr, delay) if visualize else None
+
+        draw(arr, delay) if visualize else None
 
     return arr
 
 def shell_sort(arr: list, visualize: bool, delay: float) -> list:
-    # TODO: implement shell sort here
+    n = len(arr)
+    gap = n // 2
+
+    while gap > 0:
+        for i in range(gap, n):
+            current = i
+            while current - gap >= 0 and arr[current] < arr[current - gap]:
+                arr[current], arr[current - gap] = arr[current - gap], arr[current]
+                current -= gap
+                draw(arr, delay) if visualize else None
+        gap = gap // 2
 
     return arr
 
@@ -264,14 +303,30 @@ def radix_sort(arr: list, visualize: bool, delay: float) -> list:
             counting[digit] -= 1
             output_arr[counting[digit]] = arr[i]
 
-            draw(output_arr, SCREEN, delay) if visualize else None
+            draw(arr, delay) if visualize else None
 
         arr = output_arr[:]
 
     return arr
 
 def comb_sort(arr: list, visualize: bool, delay: float) -> list:
-    # TODO: implement comb sort here
+    n = len(arr)
+    shrink = 1.3
+    gap = n
+    swapped = True
+
+    while gap > 1 or swapped:
+
+        gap = max(1, int(gap / shrink))
+
+        swapped = False  # track if any swaps occur
+        for i in range(gap, n):
+
+            if arr[i] < arr[i - gap]:  # swap if out of order
+                arr[i], arr[i - gap] = arr[i - gap], arr[i]
+                draw(arr, delay) if visualize else None
+
+                swapped = True
 
     return arr
 
@@ -286,14 +341,14 @@ def cocktail_shaker_sort(arr: list, visualize: bool, delay: float) -> list:
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 swapped = True
-                draw(arr, SCREEN, delay) if visualize else None
+                draw(arr, delay) if visualize else None
         right -= 1
 
         for j in range(right, left, -1):
             if arr[j] < arr[j - 1]:
                 arr[j], arr[j - 1] = arr[j - 1], arr[j]
                 swapped = True
-                draw(arr, SCREEN, delay) if visualize else None
+                draw(arr, delay) if visualize else None
         left += 1
 
         if not swapped:
@@ -311,7 +366,7 @@ def bogo_sort(arr: list, visualize: bool, delay: float) -> list:
             if arr[i] < arr[i - 1]:
                 is_sorted = False
                 shuffle(arr)
-                draw(arr, SCREEN, delay) if visualize else None
+                draw(arr, delay) if visualize else None
                 break
 
     return arr
