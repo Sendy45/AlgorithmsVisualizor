@@ -7,7 +7,10 @@ from .sorting_algorithms import (
     quick_sort,
     counting_sort,
     radix_sort,
-    cocktail_shaker_sort
+    cocktail_shaker_sort,
+    shell_sort,
+    bucket_sort,
+    comb_sort
 )
 
 ALGORITHMS = [
@@ -19,7 +22,10 @@ ALGORITHMS = [
     heap_sort,
     counting_sort,
     radix_sort,
-    cocktail_shaker_sort
+    cocktail_shaker_sort,
+    shell_sort,
+    bucket_sort,
+    comb_sort
 ]
 
 __all__ = [
@@ -32,5 +38,8 @@ __all__ = [
     "counting_sort",
     "radix_sort",
     "cocktail_shaker_sort",
+    "shell_sort",
+    "bucket_sort",
+    "comb_sort",
     "ALGORITHMS"
 ]

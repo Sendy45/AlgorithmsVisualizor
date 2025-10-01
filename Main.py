@@ -5,12 +5,13 @@ import time
 pygame.init()
 import config
 from algorithms import ALGORITHMS
-from visualization.Visualization import event_handler
+from visualization.Visualization import event_handler, Column, DisplayText
 
 # Wrapper function to analyze algorithm
 # Counts operations, execution time, and returns result
 def analyze_algorithm(func, arr: list, visualize: bool = True, delay: float = 0.02) -> dict:
 
+    config.algorithm_name = func.__name__
     func(arr.copy(), visualize=visualize, delay=delay)
 
     # Time counting (measure performance without visualization)
@@ -26,26 +27,34 @@ def analyze_algorithm(func, arr: list, visualize: bool = True, delay: float = 0.
 
 
 # Generate random shuffled array
-def random_array(length: int) -> list:
-    arr = list(range(1, length + 1))
-    shuffle(arr)
-    return arr
+def random_columns_array(length: int) -> list[Column]:
+    columns = []
+    for i in range(length):
+        columns.append(Column(i, i + 1))
+    shuffle(columns)
+    return columns
 
 
-def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = True, delay: float = 0.01):
+def run_sort_visualizer(visualize: bool = True):
 
     while True:  # loop until the user closes the window
         config.restart_run = False  # reset the restart flag
         config.arr_length %= config.SCREEN_WIDTH
         config.algorithm_idx %= len(ALGORITHMS)
+        config.delay %= 0.01
+        config.delay = round(config.delay, 5)
 
-        unsorted_arr = random_array(config.arr_length)
+        unsorted_arr = random_columns_array(config.arr_length)
 
         # Run algorithm
-        stats = analyze_algorithm(ALGORITHMS[config.algorithm_idx], unsorted_arr, visualize=visualize, delay=delay)
+        stats = analyze_algorithm(ALGORITHMS[config.algorithm_idx], unsorted_arr, visualize=visualize, delay=config.delay)
         print(stats["sorting algorithm"])
         print("time " + str(stats["time"]))
-        print(stats["result"])
+
+        nums_arr = []
+        for col in stats["result"]:
+            nums_arr.append(col.value)
+        print(nums_arr)
 
         # Wait for user input
         waiting = True
@@ -57,6 +66,6 @@ def run_sort_visualizer(arr_length: int, algorithm_idx: int, visualize: bool = T
 
 if __name__ == "__main__":
 
-    run_sort_visualizer(config.arr_length, config.algorithm_idx, delay=config.delay)
+    run_sort_visualizer()
 
     pygame.quit()
