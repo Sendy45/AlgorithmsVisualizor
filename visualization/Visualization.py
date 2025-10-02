@@ -55,7 +55,7 @@ def render_frame(objects: list[Drawable], delay: float, hud: dict[str, str] = No
     # Draw HUD (if any)
     if hud:
         for idx, (key, value) in enumerate(hud.items()):
-            DisplayText(f"{key} = {value}", (0, idx * 30)).draw()
+            DisplayText((0, idx * 30), f"{key} = {value}","Green").draw()
 
     pygame.display.flip()
 

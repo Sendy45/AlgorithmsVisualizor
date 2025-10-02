@@ -1,8 +1,10 @@
 import pygame
-from random import shuffle
+from random import shuffle, randint
 import time
 
-pygame.init()
+from config import SCREEN_WIDTH
+from visualization.TreeNode import TreeNode
+
 import config
 from algorithms import ALGORITHMS
 from visualization.Visualization import event_handler, Column, DisplayText
@@ -34,6 +36,27 @@ def random_columns_array(length: int) -> list[Column]:
     shuffle(columns)
     return columns
 
+def generate_random_tree(
+    max_depth: int = 4,
+    max_children: int = 3,
+    value_range: tuple[int, int] = (1, 100)
+) -> TreeNode:
+    """
+    Generates a random tree and returns the root TreeNode.
+    """
+    def create_node(depth: int) -> TreeNode:
+        value = randint(*value_range)
+        node = TreeNode(value=value)
+
+        if depth < max_depth:
+            num_children = randint(0, max_children)
+            for _ in range(num_children):
+                child = create_node(depth + 1)
+                node.add_child(child)
+
+        return node
+
+    return create_node(0)
 
 def run_sort_visualizer(visualize: bool = True):
 
@@ -65,7 +88,29 @@ def run_sort_visualizer(visualize: bool = True):
 
 
 if __name__ == "__main__":
+    pygame.init()
 
-    run_sort_visualizer()
+    #run_sort_visualizer()
+
+    while True:
+
+        config.restart_run = False
+
+        config.SCREEN.fill("black")
+
+        root = generate_random_tree()
+
+        root.print_tree()
+
+        root.draw()
+
+        pygame.display.flip()
+
+        # Wait for user input
+        waiting = True
+        while waiting:
+            event_handler()
+            if config.restart_run:
+                waiting = False  # user pressed a key → exit wait and rerun
 
     pygame.quit()
