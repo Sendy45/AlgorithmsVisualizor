@@ -3,7 +3,7 @@ from collections import defaultdict
 import pygame
 
 from config import SCREEN_HEIGHT, SCREEN_WIDTH
-from visualization import Drawable, DisplayText
+from visualization import Drawable, DisplayText, Arrow
 import config
 
 class TreeNode(Drawable):
@@ -122,4 +122,5 @@ class TreeNode(Drawable):
         ).draw()
 
         for child in self.children:
+            Arrow.Arrow(self.position, child.position, padding=TreeNode.r).draw()
             child.draw()

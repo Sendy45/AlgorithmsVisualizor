@@ -3,6 +3,7 @@ from random import shuffle, randint
 import time
 
 from config import SCREEN_WIDTH
+from visualization.Arrow import Arrow
 from visualization.TreeNode import TreeNode
 
 import config
@@ -41,9 +42,7 @@ def generate_random_tree(
     max_children: int = 3,
     value_range: tuple[int, int] = (1, 100)
 ) -> TreeNode:
-    """
-    Generates a random tree and returns the root TreeNode.
-    """
+
     def create_node(depth: int) -> TreeNode:
         value = randint(*value_range)
         node = TreeNode(value=value)
@@ -105,6 +104,8 @@ if __name__ == "__main__":
         root.draw()
 
         pygame.display.flip()
+
+        arrows = []
 
         # Wait for user input
         waiting = True

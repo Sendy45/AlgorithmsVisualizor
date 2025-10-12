@@ -5,5 +5,6 @@ __all__ = [
     "Column",
     "DisplayText",
     "TreeNode",
+    "Arrow",
     "event_handler"
 ]
