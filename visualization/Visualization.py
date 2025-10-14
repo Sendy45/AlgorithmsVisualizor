@@ -1,4 +1,3 @@
-# Example file showing a basic pygame "game loop"
 import pygame.midi
 import pygame
 import time

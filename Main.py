@@ -2,6 +2,8 @@ import pygame
 from random import shuffle, randint
 import time
 
+import algorithms.tree_algorithms
+from algorithms.tree_algorithms import add_to_binary_tree
 from config import SCREEN_WIDTH
 from visualization.Arrow import Arrow
 from visualization.TreeNode import TreeNode
@@ -38,7 +40,7 @@ def random_columns_array(length: int) -> list[Column]:
     return columns
 
 def generate_random_tree(
-    max_depth: int = 4,
+    max_depth: int = 5,
     max_children: int = 3,
     value_range: tuple[int, int] = (1, 100)
 ) -> TreeNode:
@@ -48,7 +50,7 @@ def generate_random_tree(
         node = TreeNode(value=value)
 
         if depth < max_depth:
-            num_children = randint(0, max_children)
+            num_children = randint(1, max_children)
             for _ in range(num_children):
                 child = create_node(depth + 1)
                 node.add_child(child)
@@ -91,21 +93,23 @@ if __name__ == "__main__":
 
     #run_sort_visualizer()
 
+    # root = generate_random_tree()
+
+    arr = list(range(21))
+
+    root = algorithms.tree_algorithms.binary_search_tree(arr)
+
+    root = add_to_binary_tree(root, 100)
+
     while True:
 
         config.restart_run = False
 
         config.SCREEN.fill("black")
 
-        root = generate_random_tree()
-
-        root.print_tree()
-
         root.draw()
 
         pygame.display.flip()
-
-        arrows = []
 
         # Wait for user input
         waiting = True

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from idlelib.tree import TreeNode
 
 import pygame
 
@@ -122,5 +123,13 @@ class TreeNode(Drawable):
         ).draw()
 
         for child in self.children:
-            Arrow.Arrow(self.position, child.position, padding=TreeNode.r).draw()
+            Arrow(self.position, child.position, padding=TreeNode.r).draw()
             child.draw()
+
+    def copy(self) -> TreeNode:
+        copy_node = TreeNode(self.value)
+        copy_node.position = self.position
+        copy_node.children = self.children
+        copy_node.parent = self.parent
+        copy_node.update_layout()
+        return copy_node

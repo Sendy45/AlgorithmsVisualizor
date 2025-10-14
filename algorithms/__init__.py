@@ -13,6 +13,10 @@ from .sorting_algorithms import (
     comb_sort
 )
 
+from .tree_algorithms import (
+    binary_search_tree
+)
+
 ALGORITHMS = [
     bubble_sort,
     selection_sort,
@@ -41,5 +45,6 @@ __all__ = [
     "shell_sort",
     "bucket_sort",
     "comb_sort",
-    "ALGORITHMS"
+    "ALGORITHMS",
+    "binary_search_tree"
 ]
