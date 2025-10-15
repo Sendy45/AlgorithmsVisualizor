@@ -5,6 +5,7 @@ from .DisplayText import DisplayText
 from .TreeNode import TreeNode
 from .Drawable import Drawable
 from .BinaryTreeNode import BinaryTreeNode
+from .Button import Button
 
 __all__ = [
     "Drawable",
@@ -13,6 +14,7 @@ __all__ = [
     "TreeNode",
     "Arrow",
     "BinaryTreeNode",
+    "Button",
     "event_handler",
     "render_frame"
 ]

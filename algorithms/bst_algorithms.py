@@ -1,12 +1,15 @@
 from visualization import render_frame, BinaryTreeNode
 
-def bst_create(arr: list[int]) -> BinaryTreeNode | None:
+def bst_create(arr: list[int], visualize: bool = False, delay: float = 0) -> BinaryTreeNode | None:
     if not arr:
         return None
     mid = len(arr) // 2
     node = BinaryTreeNode(arr[mid])
     node.left = bst_create(arr[:mid])
     node.right = bst_create(arr[mid + 1:])
+
+    if visualize and node == node.get_root():
+        node.draw()
 
     return node
 

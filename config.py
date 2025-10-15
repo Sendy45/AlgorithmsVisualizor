@@ -17,3 +17,5 @@ COLUMN_HEIGHT = SCREEN.get_height() / arr_length
 
 default_color = "Green"
 highlight_color = "White"
+
+item_to_render = []

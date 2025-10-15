@@ -8,8 +8,9 @@ class Drawable:
     def __init__(self, position: int | tuple[int | float, int | float] = 0, value: str | float | int = 0, highlighted: bool = False, color: ColorType = default_color) -> None:
         self.position = position
         self.value = value
-        self.highlighted = highlighted
         self.color = pygame.Color(color)
+        self.highlighted = highlighted
+        self.highlight() if highlighted else None
 
     def highlight(self) -> None:
         self.highlighted = True
