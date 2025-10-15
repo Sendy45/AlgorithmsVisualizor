@@ -1,15 +1,12 @@
 import pygame
 import math
-
-from unicodedata import normalize
-
 import config
 from visualization import Drawable, DisplayText
 
 
 class Arrow(Drawable):
-    def __init__(self, start_position: tuple[int | float, int | float], end_position: tuple[int | float, int | float], value: str | float | int = None, padding: int = 0) -> None:
-        super().__init__(value=value)
+    def __init__(self, start_position: tuple[int | float, int | float], end_position: tuple[int | float, int | float], value: str | float | int = None, padding: int = 0, highlighted: bool = False) -> None:
+        super().__init__(value=value, highlighted=highlighted)
         self.start_position = start_position
         self.end_position = end_position
         self.padding = padding
@@ -35,6 +32,6 @@ class Arrow(Drawable):
             midpoint = ((start_point[0] + end_point[0]) / 2 , (start_point[1] + end_point[1]) / 2)
             DisplayText(midpoint, self.value).draw()
 
-        pygame.draw.line(config.SCREEN, "Green", start_point, end_point)
+        pygame.draw.line(config.SCREEN, self.color, start_point, end_point)
 
 

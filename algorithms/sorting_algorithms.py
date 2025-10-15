@@ -1,6 +1,5 @@
 import math
-
-from visualization.Visualization import render_frame, Column
+from visualization import render_frame, Column
 from random import shuffle
 
 # Bubble sort - O(n^2)
@@ -219,6 +218,7 @@ def counting_sort(columns: list[Column], visualize: bool, delay: float) -> list:
 
     return columns
 
+# Bucket sort - O(n + k)
 def bucket_sort(columns: list[Column], visualize: bool, delay: float) -> list[Column]:
     n = len(columns)
     k = int(math.sqrt(n))
@@ -251,6 +251,7 @@ def bucket_sort(columns: list[Column], visualize: bool, delay: float) -> list[Co
 
     return columns
 
+# Shell sort - O(n log n)
 def shell_sort(columns: list[Column], visualize: bool, delay: float) -> list[Column]:
     n = len(columns)
     gap = n // 2
@@ -308,6 +309,7 @@ def radix_sort(columns: list[Column], visualize: bool, delay: float) -> list[Col
 
     return columns
 
+# Comb sort - Best: O(n log n), Average: O(n^2)
 def comb_sort(columns: list[Column], visualize: bool, delay: float) -> list[Column]:
     n = len(columns)
     shrink = 1.3
@@ -329,6 +331,7 @@ def comb_sort(columns: list[Column], visualize: bool, delay: float) -> list[Colu
 
     return columns
 
+# Cocktail Shaker sort - O(n^2)
 def cocktail_shaker_sort(columns: list[Column], visualize: bool, delay: float) -> list[Column]:
     n = len(columns)
 
@@ -355,6 +358,7 @@ def cocktail_shaker_sort(columns: list[Column], visualize: bool, delay: float) -
 
     return columns
 
+# Bogo sort - O(n X n!)
 def bogo_sort(columns: list[Column], visualize: bool, delay: float) -> list[Column]:
 
     is_sorted = False

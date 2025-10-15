@@ -2,8 +2,8 @@ from __future__ import annotations
 from visualization import TreeNode
 
 class BinaryTreeNode(TreeNode):
-    def __init__(self, value: int):
-        super().__init__(value)
+    def __init__(self, value: int, highlighted: bool = False):
+        super().__init__(value, highlighted)
         self._left: BinaryTreeNode | None = None
         self._right: BinaryTreeNode | None = None
         self.children: list[BinaryTreeNode] = []
@@ -15,6 +15,7 @@ class BinaryTreeNode(TreeNode):
     @left.setter
     def left(self, node: BinaryTreeNode | None):
         self._left = node
+        if node: node.parent = self
         self._update_children()
 
     @property
@@ -24,6 +25,7 @@ class BinaryTreeNode(TreeNode):
     @right.setter
     def right(self, node: BinaryTreeNode | None):
         self._right = node
+        if node: node.parent = self
         self._update_children()
 
     def _update_children(self) -> None:
@@ -35,12 +37,8 @@ class BinaryTreeNode(TreeNode):
             self.children.append(self._right)
         self.update_layout()
 
-    def copy(self) -> BinaryTreeNode:
-        copy_node = BinaryTreeNode(self.value)
-        copy_node.left = self.left.copy() if self.left is not None else None
-        copy_node.right = self.right.copy() if self.right is not None else None
-        copy_node.position = self.position
-        copy_node.children = self.children
-        copy_node.parent = self.parent
-        copy_node.update_layout()
-        return copy_node
+
+    def find_min(self) -> BinaryTreeNode:
+        if self.left:
+            return self.left.find_min()
+        return self

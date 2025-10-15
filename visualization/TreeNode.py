@@ -1,16 +1,14 @@
 from collections import defaultdict
-from idlelib.tree import TreeNode
-
 import pygame
 
-from config import SCREEN_HEIGHT, SCREEN_WIDTH
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, default_color
 from visualization import Drawable, DisplayText, Arrow
 import config
 
 class TreeNode(Drawable):
     r = 100
-    def __init__(self, value: int = 0):
-        super().__init__(0, value)
+    def __init__(self, value: int = 0, highlighted: bool = False):
+        super().__init__(0, value, highlighted)
         self.children = []
         self.parent = None
         self.update_layout()
@@ -115,10 +113,9 @@ class TreeNode(Drawable):
             return self
 
     def draw(self) -> None:
-        pygame.draw.circle(config.SCREEN, "Green", self.position, TreeNode.r)
+        pygame.draw.circle(config.SCREEN, self.color, self.position, TreeNode.r)
         DisplayText(self.position,
                     str(self.value),
-                    (0, 0, 0),
                     font_size=int(TreeNode.r * 1.5)
         ).draw()
 
@@ -126,10 +123,8 @@ class TreeNode(Drawable):
             Arrow(self.position, child.position, padding=TreeNode.r).draw()
             child.draw()
 
-    def copy(self) -> TreeNode:
-        copy_node = TreeNode(self.value)
-        copy_node.position = self.position
-        copy_node.children = self.children
-        copy_node.parent = self.parent
-        copy_node.update_layout()
-        return copy_node
+
+    def unhighlight_all(self) -> None:
+        self.unhighlight()
+        for child in self.children:
+            child.unhighlight_all()

@@ -1,8 +1,6 @@
 import pygame.midi
 import pygame
-import time
 import config
-from visualization.Column import Column
 from visualization.DisplayText import DisplayText
 from visualization.Drawable import Drawable
 
@@ -54,7 +52,7 @@ def render_frame(objects: list[Drawable], delay: float, hud: dict[str, str] = No
     # Draw HUD (if any)
     if hud:
         for idx, (key, value) in enumerate(hud.items()):
-            DisplayText((0, idx * 30), f"{key} = {value}","Green").draw()
+            DisplayText((0, idx * 30), f"{key} = {value}").draw()
 
     pygame.display.flip()
 

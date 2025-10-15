@@ -1,4 +1,4 @@
-from .Visualization import *
+from .rendering import *
 from .Column import Column
 from .Arrow import Arrow
 from .DisplayText import DisplayText
@@ -13,5 +13,6 @@ __all__ = [
     "TreeNode",
     "Arrow",
     "BinaryTreeNode",
-    "event_handler"
+    "event_handler",
+    "render_frame"
 ]

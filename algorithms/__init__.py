@@ -13,8 +13,14 @@ from .sorting_algorithms import (
     comb_sort
 )
 
-from .tree_algorithms import (
-    binary_search_tree
+from .bst_algorithms import (
+    bst_create,
+    bst_search,
+    bst_insert,
+    bst_remove,
+    bst_traverse_inorder,
+    bst_traverse_preorder,
+    bst_traverse_postorder
 )
 
 ALGORITHMS = [
@@ -46,5 +52,11 @@ __all__ = [
     "bucket_sort",
     "comb_sort",
     "ALGORITHMS",
-    "binary_search_tree"
+    "bst_create",
+    "bst_search",
+    "bst_insert",
+    "bst_remove",
+    "bst_traverse_inorder",
+    "bst_traverse_preorder",
+    "bst_traverse_postorder"
 ]

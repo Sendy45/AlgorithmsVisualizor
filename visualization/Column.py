@@ -6,8 +6,6 @@ from visualization.Drawable import Drawable
 class Column(Drawable):
     def __init__(self, position: int = 0, value: int = 0):
         super().__init__(position, value)
-        self.highlighted = False
-        self.color = pygame.Color('white')
 
     def draw(self) -> None:
         col_w = config.SCREEN_WIDTH / config.arr_length
@@ -23,13 +21,10 @@ class Column(Drawable):
         if self.value == self.position + 1:
             self.highlight()
         else:
-            self.color = pygame.Color('white')
+            self.unhighlight()
 
         pygame.draw.rect(config.SCREEN, self.color, rec)
 
-    def highlight(self) -> None:
-        self.highlighted = True
-        self.color = pygame.Color('green')
 
     def __lt__(self, other) -> bool:
         return self.value < other.value

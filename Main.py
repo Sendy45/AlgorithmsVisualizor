@@ -2,15 +2,11 @@ import pygame
 from random import shuffle, randint
 import time
 
-import algorithms.tree_algorithms
-from algorithms.tree_algorithms import add_to_binary_tree
-from config import SCREEN_WIDTH
-from visualization.Arrow import Arrow
-from visualization.TreeNode import TreeNode
+from algorithms.bst_algorithms import *
+from visualization import render_frame, TreeNode, event_handler, Column
 
 import config
 from algorithms import ALGORITHMS
-from visualization.Visualization import event_handler, Column, DisplayText
 
 # Wrapper function to analyze algorithm
 # Counts operations, execution time, and returns result
@@ -87,7 +83,6 @@ def run_sort_visualizer(visualize: bool = True):
             if config.restart_run:
                 waiting = False  # user pressed a key → exit wait and rerun
 
-
 if __name__ == "__main__":
     pygame.init()
 
@@ -95,13 +90,36 @@ if __name__ == "__main__":
 
     # root = generate_random_tree()
 
-    arr = list(range(21))
+    arr = list(range(1, 30, 3))
 
-    root = algorithms.tree_algorithms.binary_search_tree(arr)
+    root = bst_create(arr)
 
-    root = add_to_binary_tree(root, 100)
+    bst_insert(root, 5, visualize=True, delay=0.5)
 
-    while True:
+    root.unhighlight_all()
+
+    bst_search(root, 29, visualize=True, delay=0.5)
+
+    root.unhighlight_all()
+
+    bst_remove(root, 7, visualize=True, delay=0.5)
+
+    root.unhighlight_all()
+
+    bst_traverse_postorder(root, visualize=True, delay=0.5)
+
+    root.unhighlight_all()
+
+    render_frame([root], delay=0.5)
+
+    # Wait for user input
+    waiting = True
+    while waiting:
+        event_handler()
+        if config.restart_run:
+            waiting = False  # user pressed a key → exit wait and rerun
+
+    """while True:
 
         config.restart_run = False
 
@@ -117,5 +135,6 @@ if __name__ == "__main__":
             event_handler()
             if config.restart_run:
                 waiting = False  # user pressed a key → exit wait and rerun
+    """
 
     pygame.quit()
