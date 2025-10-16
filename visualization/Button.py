@@ -1,6 +1,7 @@
 import pygame
 import config
-from visualization import Drawable, DisplayText
+from visualization.Drawable import Drawable
+from visualization.DisplayText import DisplayText
 
 
 class Button(Drawable):

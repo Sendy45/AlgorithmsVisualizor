@@ -13,7 +13,7 @@ def bubble_sort(columns: list[Column], visualize: bool, delay: float) -> list:
 
             if columns[j] > columns[j + 1]:  # swap if out of order
                 columns[j], columns[j + 1] = columns[j + 1], columns[j]
-                render_frame(columns, delay, {"n":str(n), "d":str(delay)}) if visualize else None
+                render_frame(columns, delay) if visualize else None # hud - {"n":str(n), "d":str(delay)}
 
                 swapped = True
 

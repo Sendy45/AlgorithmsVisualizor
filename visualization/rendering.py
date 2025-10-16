@@ -3,6 +3,7 @@ import pygame
 import config
 from visualization.DisplayText import DisplayText
 from visualization.Drawable import Drawable
+from visualization.Button import Button
 
 # pygame setup
 pygame.init()
@@ -16,19 +17,9 @@ def event_handler():
             pygame.quit()
             raise SystemExit
 
-        elif event.type == pygame.KEYDOWN:
-            config.restart_run = True  # signal the sort to restart
-
-            if event.key == pygame.K_UP:
-                config.arr_length += 50
-            elif event.key == pygame.K_DOWN:
-                config.arr_length = max(10, config.arr_length - 50)
-            elif event.key == pygame.K_RIGHT:
-                config.algorithm_idx += 1
-            elif event.key == pygame.K_LEFT:
-                config.algorithm_idx -= 1
-            elif event.key == pygame.K_d:
-                config.delay += 0.001
+        for btn in config.item_to_render:
+            if isinstance(btn, Button):
+                btn.handle_event(event)
 
 def render_frame(objects: list[Drawable], delay: float, hud: dict[str, str] = None, play_sound: bool = False) -> bool:
     """
