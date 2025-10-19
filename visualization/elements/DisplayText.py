@@ -1,11 +1,10 @@
 import pygame
 import config
-from visualization.Drawable import Drawable
-
+from ..Drawable import Drawable, ColorType
 
 class DisplayText(Drawable):
-    def __init__(self, position: tuple[int | float, int | float], value: str, font_size: int = 20):
-        super().__init__(position, value, color="Black")
+    def __init__(self, position: tuple[int | float, int | float], value: str, font_size: int = 20, color: ColorType = "Black"):
+        super().__init__(position, value, color=color)
         self.font_size = font_size
         self.font = pygame.font.SysFont('freesansbold', self.font_size)
 

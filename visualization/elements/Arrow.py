@@ -1,7 +1,8 @@
 import pygame
 import math
 import config
-from visualization import Drawable, DisplayText
+from ..Drawable import Drawable
+from ..elements.DisplayText import DisplayText
 
 
 class Arrow(Drawable):

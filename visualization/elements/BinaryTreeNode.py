@@ -1,5 +1,5 @@
 from __future__ import annotations
-from visualization import TreeNode
+from ..elements.TreeNode import TreeNode
 
 class BinaryTreeNode(TreeNode):
     def __init__(self, value: int, highlighted: bool = False):

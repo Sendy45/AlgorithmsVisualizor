@@ -2,7 +2,9 @@ from collections import defaultdict
 import pygame
 
 from config import SCREEN_HEIGHT, SCREEN_WIDTH, default_color
-from visualization import Drawable, DisplayText, Arrow
+from ..Drawable import Drawable
+from ..elements.DisplayText import DisplayText
+from ..elements.Arrow import Arrow
 import config
 
 class TreeNode(Drawable):

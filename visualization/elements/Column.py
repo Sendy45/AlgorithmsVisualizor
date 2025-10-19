@@ -1,6 +1,6 @@
 import pygame
 import config
-from visualization.Drawable import Drawable
+from ..Drawable import Drawable
 
 
 class Column(Drawable):

@@ -1,9 +1,10 @@
 import pygame.midi
 import pygame
 import config
-from visualization.DisplayText import DisplayText
+from visualization.components.InputBox import InputBox
+from visualization.elements.DisplayText import DisplayText
 from visualization.Drawable import Drawable
-from visualization.Button import Button
+from visualization.components.Button import Button
 
 # pygame setup
 pygame.init()
@@ -17,9 +18,10 @@ def event_handler():
             pygame.quit()
             raise SystemExit
 
-        for btn in config.item_to_render:
-            if isinstance(btn, Button):
-                btn.handle_event(event)
+        for component in config.item_to_render:
+            if hasattr(component, "handle_event"):
+                component.handle_event(event)
+
 
 def render_frame(objects: list[Drawable], delay: float, hud: dict[str, str] = None, play_sound: bool = False) -> bool:
     """

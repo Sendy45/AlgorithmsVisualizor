@@ -1,11 +1,12 @@
 from .rendering import *
-from .Column import Column
-from .Arrow import Arrow
-from .DisplayText import DisplayText
-from .TreeNode import TreeNode
+from .elements.Column import Column
+from .elements.Arrow import Arrow
+from .elements.DisplayText import DisplayText
+from .elements.TreeNode import TreeNode
 from .Drawable import Drawable
-from .BinaryTreeNode import BinaryTreeNode
-from .Button import Button
+from .elements.BinaryTreeNode import BinaryTreeNode
+from .components.Button import Button
+from .components.InputBox import InputBox
 
 __all__ = [
     "Drawable",
@@ -15,6 +16,7 @@ __all__ = [
     "Arrow",
     "BinaryTreeNode",
     "Button",
+    "InputBox",
     "event_handler",
     "render_frame"
 ]
