@@ -7,6 +7,8 @@ from .Drawable import Drawable
 from .elements.BinaryTreeNode import BinaryTreeNode
 from .components.Button import Button
 from .components.InputBox import InputBox
+from .elements.Cell import Cell
+from .elements.Maze import Maze
 
 __all__ = [
     "Drawable",
@@ -15,6 +17,8 @@ __all__ = [
     "TreeNode",
     "Arrow",
     "BinaryTreeNode",
+    "Cell",
+    "Maze",
     "Button",
     "InputBox",
     "event_handler",

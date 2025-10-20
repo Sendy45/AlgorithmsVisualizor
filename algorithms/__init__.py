@@ -23,6 +23,10 @@ from .bst_algorithms import (
     bst_traverse_postorder
 )
 
+from .maze_algorithms import (
+    depth_first_search
+)
+
 ALGORITHMS = [
     bubble_sort,
     selection_sort,
@@ -58,5 +62,6 @@ __all__ = [
     "bst_remove",
     "bst_traverse_inorder",
     "bst_traverse_preorder",
-    "bst_traverse_postorder"
+    "bst_traverse_postorder",
+    "depth_first_search"
 ]

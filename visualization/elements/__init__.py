@@ -3,6 +3,8 @@ from .Arrow import Arrow
 from .BinaryTreeNode import BinaryTreeNode
 from .TreeNode import TreeNode
 from .Column import Column
+from .Cell import Cell
+from .Maze import Maze
 
 __all__ = [
     "DisplayText",
@@ -10,4 +12,6 @@ __all__ = [
     "BinaryTreeNode",
     "TreeNode",
     "Column",
+    "Cell",
+    "Maze"
 ]

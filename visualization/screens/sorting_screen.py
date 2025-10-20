@@ -2,6 +2,7 @@ import config
 from visualization import Button, event_handler
 from algorithms import ALGORITHMS
 from utils import random_columns_array, analyze_algorithm
+
 def run_sort_screen(visualize: bool = True):
 
     config.item_to_render = []
