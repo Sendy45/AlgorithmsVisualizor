@@ -23,17 +23,14 @@ class Maze(Drawable):
                 cell.draw()
 
 
-    def get_neighbors(self, cell: Cell | tuple[int, int]) -> list[Cell] | None:
+    def get_neighbors(self, cell: Cell | tuple[int, int]) -> list[Cell]:
 
         if isinstance(cell, Cell):
             r, c = cell.row, cell.col
         else:
             r, c = cell
 
-        if not (0 <= r < self.rows and 0 <= c < self.cols):
-            return None
-
-        dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]  # directions (right, left, down, up)
+        dirs = [(-1,0),(0,1),(1,0),(0,-1)]  # directions (TOP, RIGHT, BOTTOM, LEFT)
         neighbors = []
         for dx, dy in dirs:
             neighbor = self.get_cell(r + dx, c + dy)
@@ -41,3 +38,30 @@ class Maze(Drawable):
                 neighbors.append(neighbor)
 
         return neighbors
+
+    def get_next_cell(self, cell: Cell, direction: int) -> Cell | None:
+        """
+        Get the neighboring cell in a specific direction (TOP, RIGHT, BOTTOM, LEFT).
+        Returns None if that neighbor doesn't exist (out of bounds).
+        """
+        TOP, RIGHT, BOTTOM, LEFT = range(4)
+        row, col = cell.row, cell.col
+
+        if direction == TOP:
+            row -= 1
+        elif direction == RIGHT:
+            col += 1
+        elif direction == BOTTOM:
+            row += 1
+        elif direction == LEFT:
+            col -= 1
+
+        # return None if out of bounds
+        if 0 <= row < self.rows and 0 <= col < self.cols:
+            return self.get_cell(row, col)
+        return None
+
+    def clean_all(self):
+        for row in self.grid:
+            for cell in row:
+                cell.visited = False

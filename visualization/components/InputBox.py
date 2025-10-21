@@ -41,4 +41,3 @@ class InputBox(Drawable):
                 self.value = self.value[:-1]
             else:
                 self.value += event.unicode
-                print(self.value)

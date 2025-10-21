@@ -8,37 +8,42 @@ class Cell(Drawable):
         super().__init__(position)
         self.row = position[0]
         self.col = position[1]
-        self.walls = [True, True, True, True]
+        self.walls = [True] * 4
         self.visited = False
 
     def draw(self) -> None:
+        x = self.col * 20  # horizontal
+        y = self.row * 20  # vertical
+
         if self.visited:
-            pygame.draw.rect(config.SCREEN, (150, 255, 150), pygame.Rect(self.row * 20, self.col * 20, 20, 20))
-        if self.walls[0]: # UP WALL
-            pygame.draw.line(config.SCREEN, self.color, (self.row* 20, self.col* 20), (self.row* 20+20, self.col* 20), 4)
-        if self.walls[1]: # RIGHT WALL
-            pygame.draw.line(config.SCREEN, self.color, (self.row* 20 + 20, self.col* 20), (self.row* 20 + 20, self.col* 20+20), 4)
-        if self.walls[2]: # DOWN WALL
-            pygame.draw.line(config.SCREEN, self.color, (self.row* 20 + 20, self.col* 20 + 20), (self.row* 20, self.col* 20 + 20), 4)
-        if self.walls[3]: # LEFT WALL
-            pygame.draw.line(config.SCREEN, self.color, (self.row* 20, self.col* 20 + 20), (self.row* 20, self.col* 20), 4)
+            pygame.draw.rect(config.SCREEN, (150, 255, 150), pygame.Rect(x, y, 20, 20))
+
+        if self.walls[0]:  # TOP
+            pygame.draw.line(config.SCREEN, self.color, (x, y), (x + 20, y), 4)
+        if self.walls[1]:  # RIGHT
+            pygame.draw.line(config.SCREEN, self.color, (x + 20, y), (x + 20, y + 20), 4)
+        if self.walls[2]:  # BOTTOM
+            pygame.draw.line(config.SCREEN, self.color, (x + 20, y + 20), (x, y + 20), 4)
+        if self.walls[3]:  # LEFT
+            pygame.draw.line(config.SCREEN, self.color, (x, y + 20), (x, y), 4)
 
     def del_walls(self, next_cell: Cell) -> None:
-        x = self.row - next_cell.row
-        y = self.col - next_cell.col
+        dr = next_cell.row - self.row
+        dc = next_cell.col - self.col
 
-        if x == 1:
-            self.walls[3] = False
-            next_cell.walls[1] = False
-        elif x == -1:
-            self.walls[1] = False
-            next_cell.walls[3] = False
-        if y == 1:
-            self.walls[0] = False
-            next_cell.walls[2] = False
-        elif y == -1:
-            self.walls[2] = False
-            next_cell.walls[0] = False
+        if dr == -1:  # next cell is above
+            self.walls[0] = False  # TOP
+            next_cell.walls[2] = False  # BOTTOM
+        elif dr == 1:  # next cell is below
+            self.walls[2] = False  # BOTTOM
+            next_cell.walls[0] = False  # TOP
+
+        if dc == -1:  # next cell is to the left
+            self.walls[3] = False  # LEFT
+            next_cell.walls[1] = False  # RIGHT
+        elif dc == 1:  # next cell is to the right
+            self.walls[1] = False  # RIGHT
+            next_cell.walls[3] = False  # LEFT
 
 
 

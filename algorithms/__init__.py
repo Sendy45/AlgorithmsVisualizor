@@ -24,7 +24,8 @@ from .bst_algorithms import (
 )
 
 from .maze_algorithms import (
-    depth_first_search
+    depth_first_search,
+    right_wall_follower
 )
 
 ALGORITHMS = [
@@ -63,5 +64,6 @@ __all__ = [
     "bst_traverse_inorder",
     "bst_traverse_preorder",
     "bst_traverse_postorder",
-    "depth_first_search"
+    "depth_first_search",
+    "right_wall_follower"
 ]

@@ -2,15 +2,17 @@ from visualization.elements.Cell import Cell
 import pygame
 import config
 from visualization import event_handler, render_frame, Maze
-from algorithms import depth_first_search
+from algorithms import depth_first_search, right_wall_follower
 
 def run_maze_screen(visualize: bool = True):
 
     config.item_to_render = []
 
-    maze = Maze(20, 20)
+    maze = Maze(30, 30)
 
-    maze = depth_first_search(maze, delay=0.01)
+    depth_first_search(maze, visualize=False)
+    maze.clean_all()
+    right_wall_follower(maze, delay=0.001)
 
     waiting = True
     while waiting:
