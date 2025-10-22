@@ -4,28 +4,35 @@ import config
 from ..Drawable import Drawable
 
 class Cell(Drawable):
-    def __init__(self, position: tuple[int, int]):
+    def __init__(self, position: tuple[int, int], cell_size: int = 20) -> None:
         super().__init__(position)
         self.row = position[0]
         self.col = position[1]
         self.walls = [True] * 4
         self.visited = False
+        self.cell_size = cell_size
 
     def draw(self) -> None:
-        x = self.col * 20  # horizontal
-        y = self.row * 20  # vertical
+        side = self.cell_size
+        width = side // 5
+        x = self.col * side  # horizontal
+        y = self.row * side  # vertical
 
         if self.visited:
-            pygame.draw.rect(config.SCREEN, (150, 255, 150), pygame.Rect(x, y, 20, 20))
+            pygame.draw.rect(config.SCREEN, (0, 100, 0), pygame.Rect(x, y, side, side))
+
+        if self.highlighted:
+            pygame.draw.rect(config.SCREEN, self.color, pygame.Rect(x, y, side, side))
 
         if self.walls[0]:  # TOP
-            pygame.draw.line(config.SCREEN, self.color, (x, y), (x + 20, y), 4)
+            pygame.draw.line(config.SCREEN, self.color, (x, y), (x + side, y), width)
         if self.walls[1]:  # RIGHT
-            pygame.draw.line(config.SCREEN, self.color, (x + 20, y), (x + 20, y + 20), 4)
+            pygame.draw.line(config.SCREEN, self.color, (x + side, y), (x + side, y + side), width)
         if self.walls[2]:  # BOTTOM
-            pygame.draw.line(config.SCREEN, self.color, (x + 20, y + 20), (x, y + 20), 4)
+            pygame.draw.line(config.SCREEN, self.color, (x + side, y + side), (x, y + side), width)
         if self.walls[3]:  # LEFT
-            pygame.draw.line(config.SCREEN, self.color, (x, y + 20), (x, y), 4)
+            pygame.draw.line(config.SCREEN, self.color, (x, y + side), (x, y), width)
+
 
     def del_walls(self, next_cell: Cell) -> None:
         dr = next_cell.row - self.row
