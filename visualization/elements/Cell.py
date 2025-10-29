@@ -17,6 +17,7 @@ class Cell(Drawable):
         width = side // 5
         x = self.col * side  # horizontal
         y = self.row * side  # vertical
+        wall_color = (0, 255, 0)
 
         if self.visited:
             pygame.draw.rect(config.SCREEN, (0, 100, 0), pygame.Rect(x, y, side, side))
@@ -25,13 +26,13 @@ class Cell(Drawable):
             pygame.draw.rect(config.SCREEN, self.color, pygame.Rect(x, y, side, side))
 
         if self.walls[0]:  # TOP
-            pygame.draw.line(config.SCREEN, self.color, (x, y), (x + side, y), width)
+            pygame.draw.line(config.SCREEN, wall_color, (x, y), (x + side, y), width)
         if self.walls[1]:  # RIGHT
-            pygame.draw.line(config.SCREEN, self.color, (x + side, y), (x + side, y + side), width)
+            pygame.draw.line(config.SCREEN, wall_color, (x + side, y), (x + side, y + side), width)
         if self.walls[2]:  # BOTTOM
-            pygame.draw.line(config.SCREEN, self.color, (x + side, y + side), (x, y + side), width)
+            pygame.draw.line(config.SCREEN, wall_color, (x + side, y + side), (x, y + side), width)
         if self.walls[3]:  # LEFT
-            pygame.draw.line(config.SCREEN, self.color, (x, y + side), (x, y), width)
+            pygame.draw.line(config.SCREEN, wall_color, (x, y + side), (x, y), width)
 
 
     def del_walls(self, next_cell: Cell) -> None:

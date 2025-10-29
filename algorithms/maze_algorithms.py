@@ -26,7 +26,6 @@ def depth_first_search_generation(maze: Maze, start: Cell | None = None, visuali
 
     return maze
 
-
 def prims_simple_generation(maze: Maze, start: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze:
     if start is None:
         start = maze.get_cell(0, 0)
@@ -128,8 +127,53 @@ def dead_end_filling(maze: Maze, current: Cell | None = None, visualize: bool = 
     raise NotImplementedError
 
 def dijkstra(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
-    # TODO implement dijkstra algorithm
-    raise NotImplementedError
+    if current is None:
+        current = maze.get_cell(0, 0)
+
+    goal = maze.get_cell(maze.rows - 1, maze.cols - 1)
+    start = current # for later backtracking
+
+    current.visited = True
+    render_frame([maze], delay) if visualize else None
+
+    distances = {cell: float("inf") for cell in maze.all_cells()}
+    current_distance = 0
+
+    distances[current] = current_distance
+    neighbors = maze.navigable_neighbors(current)
+
+    while current != goal:
+        current_distance += 1
+        next_neighbors = []
+        for neighbor in neighbors:
+            neighbor.visited = True
+
+            distances[neighbor] = current_distance
+
+            # Add all unvisited, navigable neighbors of this neighbor
+            for n in maze.navigable_neighbors(neighbor):
+                if not n.visited and n not in next_neighbors:
+                    next_neighbors.append(n)
+
+            if neighbor == goal:
+                current = neighbor
+
+        neighbors = next_neighbors
+        render_frame([maze], delay) if visualize else None
+
+    while current != start:
+        current.highlight()
+        render_frame([maze], delay) if visualize else None
+
+        neighbors = maze.navigable_neighbors(current)
+
+        current = min(neighbors, key=lambda n: distances[n])
+
+    current.highlight()
+    render_frame([maze], delay) if visualize else None
+
+    return maze
+
 
 def a_star(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
     # TODO implement A* algorithm

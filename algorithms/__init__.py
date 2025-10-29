@@ -27,7 +27,8 @@ from .maze_algorithms import (
     depth_first_search_generation,
     prims_cell_based_generation,
     prims_simple_generation,
-    right_wall_follower
+    right_wall_follower,
+    dijkstra
 )
 
 ALGORITHMS = [
@@ -69,5 +70,6 @@ __all__ = [
     "depth_first_search_generation",
     "prims_cell_based_generation",
     "prims_simple_generation",
+    "dijkstra",
     "right_wall_follower"
 ]

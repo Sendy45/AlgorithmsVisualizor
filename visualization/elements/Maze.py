@@ -39,6 +39,19 @@ class Maze(Drawable):
 
         return neighbors
 
+    def navigable_neighbors(self, cell: Cell | tuple[int, int]) -> list[Cell]:
+        if not isinstance(cell, Cell):
+            cell = Cell(cell) # Turn tuple position into cell type
+
+        neighbors = []
+        for direction in range(4):  # TOP, RIGHT, BOTTOM, LEFT = range(4)
+            neighbor = self.get_next_cell(cell, direction)
+            if neighbor and not cell.walls[direction]: # Check if exists and navigable
+                neighbors.append(neighbor)
+
+        return neighbors
+
+
     def get_next_cell(self, cell: Cell, direction: int) -> Cell | None:
         TOP, RIGHT, BOTTOM, LEFT = range(4)
         row, col = cell.row, cell.col
@@ -61,3 +74,9 @@ class Maze(Drawable):
         for row in self.grid:
             for cell in row:
                 cell.visited = False
+
+    def all_cells(self) -> list[Cell]:
+        cells = []
+        for row in self.grid:
+            cells.extend(row)
+        return cells
