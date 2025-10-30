@@ -28,7 +28,8 @@ from .maze_algorithms import (
     prims_cell_based_generation,
     prims_simple_generation,
     right_wall_follower,
-    dijkstra
+    dijkstra,
+    a_star
 )
 
 ALGORITHMS = [
@@ -71,5 +72,6 @@ __all__ = [
     "prims_cell_based_generation",
     "prims_simple_generation",
     "dijkstra",
+    "a_star",
     "right_wall_follower"
 ]

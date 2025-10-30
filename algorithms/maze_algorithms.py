@@ -1,5 +1,6 @@
 from visualization import render_frame, Cell, Maze, DisplayText
 from random import choice
+from heapq import heappush, heappop
 
 # Made non recursive to prevent max recursion limit
 def depth_first_search_generation(maze: Maze, start: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
@@ -174,7 +175,57 @@ def dijkstra(maze: Maze, current: Cell | None = None, visualize: bool = True, de
 
     return maze
 
-
 def a_star(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
-    # TODO implement A* algorithm
-    raise NotImplementedError
+
+    # Helper function to calculate heuristic of current cell
+    # h_score - distance from goal cell
+    def heuristic(cell: Cell, goal: Cell) -> int:
+        return abs(cell.row - goal.row) + abs(cell.col - goal.col)
+
+    if current is None:
+        current = maze.get_cell(0, 0)
+
+    goal = maze.get_cell(maze.rows - 1, maze.cols - 1)
+
+    g_score = {cell: float("inf") for cell in maze.all_cells()} # distance from start
+    f_score = {cell: float("inf") for cell in maze.all_cells()} # total score - f(n) = g(n) + h(n)
+    came_from = {} # keep track of paths
+
+    g_score[current] = 0
+    f_score[current] = heuristic(current, goal)
+
+    # Priority queue (f, cell)
+    open_set = []
+    heappush(open_set, (f_score[current], current.position, current)) # when f_scores are identical - checks start.position to not compare Cell types
+
+    while open_set:
+        _, _, current = heappop(open_set) # current min f_score
+        current.visited = True
+        render_frame([maze], delay) if visualize else None
+
+        # Found goal
+        if current == goal:
+            # backtracking path from goal to start
+            while current in came_from:
+                current.highlight()
+                render_frame([maze], delay) if visualize else None
+                current = came_from[current]
+
+            current.highlight()
+            render_frame([maze], delay) if visualize else None
+
+            return maze
+
+        for neighbor in maze.navigable_neighbors(current):
+            # Checks for new or better paths through neighbors
+            # If neighbor wasn't visited - g_score[neighbor] = inf and tentative_g (distance of 1 from prev cell) is smaller
+            # If neighbor was visited but through a more expensive path - tentative_g is smaller and overwrites the current path
+            tentative_g = g_score[current] + 1  # all edges weight = 1
+            if tentative_g < g_score[neighbor]:
+                # Current path gets overwritten by the new cheaper path
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g
+                f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
+                heappush(open_set, (f_score[neighbor], neighbor.position, neighbor))
+
+    return maze

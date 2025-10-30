@@ -74,6 +74,7 @@ class Maze(Drawable):
         for row in self.grid:
             for cell in row:
                 cell.visited = False
+                cell.unhighlight()
 
     def all_cells(self) -> list[Cell]:
         cells = []
