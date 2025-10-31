@@ -1,5 +1,5 @@
-from visualization import render_frame, Cell, Maze, DisplayText
-from random import choice
+from visualization import render_frame, Cell, Maze
+from random import choice, shuffle
 from heapq import heappush, heappop
 
 # Made non recursive to prevent max recursion limit
@@ -80,6 +80,64 @@ def prims_cell_based_generation(maze: Maze, current: Cell | None = None, visuali
                     frontiers.append(next_neighbor)
 
     return maze
+
+def kruskal_generation(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze:
+    if current is None:
+        current = maze.get_cell(0, 0)
+
+    cells = maze.all_cells()
+
+    # Divides cells into sets, each set is assigned to its original cell - the parent
+    # Set - each cell in the set is reachable from any other cell in the set
+    # When all the cells has the same parent - maze in finished
+    parent = {cell: cell for cell in cells}
+    components = len(cells) # number of disjoint sets
+
+    # Find the parent of a given cell
+    def find(cell: Cell) -> Cell:
+        if parent[cell] != cell: # find the root
+            parent[cell] = find(parent[cell]) # Recursively gets the cell's parent until finding the root
+        return parent[cell] # Return the root
+
+    # Merge two sets - puts both under the same parent (root)
+    def union(a: Cell, b: Cell) -> None:
+        nonlocal components
+        root_a = find(a)
+        root_b = find(b)
+        if root_a != root_b:
+            parent[root_a] = root_b # merge sets
+            components -= 1  # one less disjoint set
+
+    current.visited = True
+
+    # Create edges list
+    # Using set to prevent duplicates
+    edges = set()
+    for cell in cells:
+        for neighbor in maze.get_neighbors(cell):
+            edge = tuple(sorted([cell, neighbor], key=lambda c: (c.row, c.col))) # prevent same edge in a different form - (a, b) == (b, a)
+            edges.add(edge)
+
+    edges = list(edges)
+    shuffle(edges)
+
+    # Check every edge until no more left or all cells connected
+    for cell_a, cell_b in edges:
+        render_frame([maze], delay) if visualize else None
+
+        # Edge divides cells that cant reach each other
+        if find(cell_a) != find(cell_b):
+            cell_a.del_walls(cell_b) # Delete edge
+            cell_a.visited = True
+            cell_b.visited = True
+            union(cell_a, cell_b) # Merge sets
+
+        # Early break: all cells connected
+        if components == 1:
+            break
+
+    return maze
+
 
 
 def right_wall_follower(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
@@ -200,6 +258,9 @@ def a_star(maze: Maze, current: Cell | None = None, visualize: bool = True, dela
 
     while open_set:
         _, _, current = heappop(open_set) # current min f_score
+
+        if current.visited:  # Skip old entries
+            continue
         current.visited = True
         render_frame([maze], delay) if visualize else None
 

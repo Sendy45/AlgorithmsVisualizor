@@ -14,7 +14,7 @@ class Cell(Drawable):
 
     def draw(self) -> None:
         side = self.cell_size
-        width = side // 5
+        width = max(side // 5, 1)
         x = self.col * side  # horizontal
         y = self.row * side  # vertical
         wall_color = (0, 255, 0)
