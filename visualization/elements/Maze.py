@@ -51,6 +51,17 @@ class Maze(Drawable):
 
         return neighbors
 
+    def navigable_unvisited_neighbors(self, cell: Cell | tuple[int, int]) -> list[Cell]:
+        if not isinstance(cell, Cell):
+            cell = Cell(cell) # Turn tuple position into cell type
+
+        neighbors = []
+        for direction in range(4):  # TOP, RIGHT, BOTTOM, LEFT = range(4)
+            neighbor = self.get_next_cell(cell, direction)
+            if neighbor and not cell.walls[direction] and not neighbor.visited: # Check if exists and navigable and not visited
+                neighbors.append(neighbor)
+
+        return neighbors
 
     def get_next_cell(self, cell: Cell, direction: int) -> Cell | None:
         TOP, RIGHT, BOTTOM, LEFT = range(4)

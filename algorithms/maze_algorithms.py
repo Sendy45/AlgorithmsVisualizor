@@ -25,6 +25,8 @@ def depth_first_search_generation(maze: Maze, start: Cell | None = None, visuali
 
         render_frame([maze], delay) if visualize else None
 
+    maze.clean_all()
+
     return maze
 
 def prims_simple_generation(maze: Maze, start: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze:
@@ -49,6 +51,8 @@ def prims_simple_generation(maze: Maze, start: Cell | None = None, visualize: bo
         else:
             # No unvisited neighbors, remove cell
             cells.remove(cell)
+
+    maze.clean_all()
 
     return maze
 
@@ -78,6 +82,8 @@ def prims_cell_based_generation(maze: Maze, current: Cell | None = None, visuali
             for next_neighbor in maze.get_neighbors(current):
                 if not next_neighbor.visited and next_neighbor not in frontiers:
                     frontiers.append(next_neighbor)
+
+    maze.clean_all()
 
     return maze
 
@@ -136,6 +142,8 @@ def kruskal_generation(maze: Maze, current: Cell | None = None, visualize: bool 
         if components == 1:
             break
 
+    maze.clean_all()
+
     return maze
 
 
@@ -182,8 +190,58 @@ def right_wall_follower(maze: Maze, current: Cell | None = None, visualize: bool
     return maze
 
 def dead_end_filling(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
-    # TODO implement dead end filling algorithm
-    raise NotImplementedError
+    if current is None:
+        current = maze.get_cell(0, 0)
+
+    goal = maze.get_cell(maze.rows - 1, maze.cols - 1)
+
+    cells = maze.all_cells()
+    dead_ends = []
+
+    for cell in cells:
+        if cell == goal or cell == current:
+            continue
+
+        neighbors = maze.navigable_neighbors(cell)
+        if len(neighbors) == 1:
+            cell.visited = True
+            dead_ends.append(neighbors[0])
+
+    render_frame([maze], delay) if visualize else None
+
+    while dead_ends:
+        new_dead_end = []
+        for cell in dead_ends:
+
+            if cell == goal or cell == current:
+                continue
+
+            # If this cell is now a dead end (only one open neighbor not yet filled)
+            neighbors = maze.navigable_unvisited_neighbors(cell)
+            if len(neighbors) == 1:
+                cell.visited = True
+                new_dead_end.append(neighbors[0])
+
+        dead_ends = new_dead_end # Replace with new list (preventing modifying a list while iterating)
+        render_frame([maze], delay) if visualize else None
+
+    # Follow the only remaining path from start to end - the solution
+    while current != goal:
+        current.highlight()
+        current.visited = True
+        render_frame([maze], delay) if visualize else None
+
+        unvisited_neighbors = maze.navigable_unvisited_neighbors(current)
+
+        if not unvisited_neighbors:
+            break  # safety check — prevents IndexError
+
+        current = unvisited_neighbors[0]
+
+    current.highlight()
+    render_frame([maze], delay) if visualize else None
+
+    return maze
 
 def dijkstra(maze: Maze, current: Cell | None = None, visualize: bool = True, delay: float = 0.0) -> Maze | None:
     if current is None:

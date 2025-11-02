@@ -30,7 +30,8 @@ from .maze_algorithms import (
     kruskal_generation,
     right_wall_follower,
     dijkstra,
-    a_star
+    a_star,
+    dead_end_filling
 )
 
 ALGORITHMS = [
@@ -75,5 +76,6 @@ __all__ = [
     "kruskal_generation",
     "dijkstra",
     "a_star",
-    "right_wall_follower"
+    "right_wall_follower",
+    "dead_end_filling"
 ]
