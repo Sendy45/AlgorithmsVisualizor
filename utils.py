@@ -1,7 +1,6 @@
 from random import shuffle, randint
 import time
 from copy import deepcopy
-from threading import Thread
 
 from visualization import TreeNode, Column
 import config
