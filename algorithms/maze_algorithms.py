@@ -1,3 +1,4 @@
+import config
 from visualization import render_frame, Cell, Maze
 from random import choice, shuffle
 from heapq import heappush, heappop
@@ -12,6 +13,10 @@ def depth_first_search_generation(maze: Maze, start: Cell | None = None, visuali
     stack = [start]
 
     while stack:
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
+
         current = stack[-1]
         neighbors = [n for n in maze.get_neighbors(current) if not n.visited]
 
@@ -37,6 +42,9 @@ def prims_simple_generation(maze: Maze, start: Cell | None = None, visualize: bo
     cells = [start]
 
     while cells:
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         # Pick a random visited cell
@@ -64,6 +72,8 @@ def prims_cell_based_generation(maze: Maze, current: Cell | None = None, visuali
     frontiers = maze.get_neighbors(current)
 
     while frontiers:
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         # Pick a random frontier cell
@@ -129,6 +139,8 @@ def kruskal_generation(maze: Maze, current: Cell | None = None, visualize: bool 
 
     # Check every edge until no more left or all cells connected
     for cell_a, cell_b in edges:
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         # Edge divides cells that cant reach each other
@@ -157,6 +169,9 @@ def right_wall_follower(maze: Maze, current: Cell | None = None, visualize: bool
     while current != goal:
         current.highlight()
         current.visited = True
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         # Determine the direction indices for walls
@@ -223,12 +238,18 @@ def dead_end_filling(maze: Maze, current: Cell | None = None, visualize: bool = 
                 new_dead_end.append(neighbors[0])
 
         dead_ends = new_dead_end # Replace with new list (preventing modifying a list while iterating)
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
     # Follow the only remaining path from start to end - the solution
     while current != goal:
         current.highlight()
         current.visited = True
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         unvisited_neighbors = maze.navigable_unvisited_neighbors(current)
@@ -276,10 +297,16 @@ def dijkstra(maze: Maze, current: Cell | None = None, visualize: bool = True, de
                 current = neighbor
 
         neighbors = next_neighbors
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
     while current != start:
         current.highlight()
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         neighbors = maze.navigable_neighbors(current)
@@ -320,6 +347,9 @@ def a_star(maze: Maze, current: Cell | None = None, visualize: bool = True, dela
         if current.visited:  # Skip old entries
             continue
         current.visited = True
+
+        if config.restart_run: # Check if algorithm needs to stop
+            return maze  # exit immediately
         render_frame([maze], delay) if visualize else None
 
         # Found goal
@@ -327,6 +357,9 @@ def a_star(maze: Maze, current: Cell | None = None, visualize: bool = True, dela
             # backtracking path from goal to start
             while current in came_from:
                 current.highlight()
+
+                if config.restart_run:  # Check if algorithm needs to stop
+                    return maze  # exit immediately
                 render_frame([maze], delay) if visualize else None
                 current = came_from[current]
 

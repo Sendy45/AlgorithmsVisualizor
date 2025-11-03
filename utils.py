@@ -1,6 +1,7 @@
 from random import shuffle, randint
 import time
 from copy import deepcopy
+from threading import Thread
 
 from visualization import TreeNode, Column
 import config
@@ -10,7 +11,8 @@ import config
 def analyze_algorithm(func, data, *args, visualize: bool = True, delay: float = 0.02) -> dict:
 
     config.algorithm_name = func.__name__
-    func(deepcopy(data), *args, visualize=visualize, delay=delay)
+    if visualize:
+        func(deepcopy(data), *args, visualize=True, delay=delay)
 
     # Time counting (measure performance without visualization)
     start_time = time.perf_counter()
