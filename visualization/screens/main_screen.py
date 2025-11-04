@@ -7,8 +7,6 @@ from visualization.screens.maze_screen import run_maze_screen
 def run_main_screen(visualize: bool = True):
     config.item_to_render = []
 
-    # TODO organize buttons outside of function
-
     bst_screen_btn = Button(
         (0, 0),
         "BST",

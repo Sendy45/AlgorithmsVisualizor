@@ -7,8 +7,6 @@ def run_sort_screen(visualize: bool = True):
 
     config.item_to_render = []
 
-    #TODO organize buttons outside of function
-
     increase_delay_btn = Button(
         (0, 0),
         "delay",
@@ -16,19 +14,28 @@ def run_sort_screen(visualize: bool = True):
     )
 
     next_algorithm_btn = Button(
-        (80, 0),
+        (0, 0),
         "next",
         action=lambda: (setattr(config, "algorithm_idx", config.algorithm_idx + 1), setattr(config, "restart_run", True))
     )
 
     arr_len_btn = Button(
-        (160, 0),
+        (0, 0),
         "length",
         action=lambda: (setattr(config, "arr_length", config.arr_length + 50),
                         setattr(config, "restart_run", True))
     )
 
     config.item_to_render.extend([increase_delay_btn, next_algorithm_btn, arr_len_btn])
+
+    start_x = 0
+    h, w = 50, 80
+    for item in config.item_to_render:
+        item.set_height(h)
+        item.set_width(w)
+        item.set_position((start_x, 0))
+        item.clip_to("top")
+        start_x += w
 
     while True:  # loop until the user closes the window
 
