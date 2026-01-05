@@ -75,7 +75,16 @@ def run_bst_screen(visualize: bool = True):
         action=lambda: run_algorithm_button(bst_traverse_inorder, root, visualize=visualize)
     )
 
-    config.item_to_render.extend([bst_create_btn, bst_insert_btn, bst_remove_btn, bst_traverse_postorder_btn, bst_traverse_inorder_btn, bst_traverse_preorder_btn, input_number])
+    back_btn = Button(
+        (0, 0),
+        "back",
+        action=lambda: __import__(
+            "visualization.screens.main_screen",
+            fromlist=["run_main_screen"]
+        ).run_main_screen()
+    )
+
+    config.item_to_render.extend([back_btn, bst_create_btn, bst_insert_btn, bst_remove_btn, bst_traverse_postorder_btn, bst_traverse_inorder_btn, bst_traverse_preorder_btn, input_number])
 
     start_y = 0
     h, w = 50, 90

@@ -12,6 +12,17 @@ pygame.midi.init()
 player = pygame.midi.Output(1)
 player.set_instrument(12)
 
+# Set up windows title and icon
+pygame.display.set_caption('Algorithms Visualizer')
+try:
+    gameIcon = pygame.image.load('assets/algorithm_ic.png')
+except pygame.error as message: # Default icon in case of error
+    print(f"Cannot load image: {message}")
+    gameIcon = None
+
+if gameIcon:
+    pygame.display.set_icon(gameIcon)
+
 def event_handler():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

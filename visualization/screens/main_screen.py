@@ -1,8 +1,8 @@
 import config
 from visualization import Button, render_frame
-from visualization.screens.sorting_screen import run_sort_screen
-from visualization.screens.bst_screen import run_bst_screen
-from visualization.screens.maze_screen import run_maze_screen
+from .sorting_screen import run_sort_screen
+from .bst_screen import run_bst_screen
+from .maze_screen import run_maze_screen
 
 def run_main_screen(visualize: bool = True):
     config.item_to_render = []

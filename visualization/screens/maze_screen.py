@@ -3,6 +3,7 @@ from visualization import event_handler, render_frame, Maze, Button, InputBox
 from algorithms import depth_first_search_generation, prims_simple_generation, prims_cell_based_generation, kruskal_generation, right_wall_follower, dijkstra, a_star, dead_end_filling
 from utils import analyze_algorithm
 
+
 def run_maze_screen(visualize: bool = True):
 
     n = 20 # default maze size
@@ -97,7 +98,16 @@ def run_maze_screen(visualize: bool = True):
         action=lambda: run_algorithm_button(right_wall_follower, maze_container, visualize=visualize, delay=delay)
     )
 
-    config.item_to_render.extend([dfs_create_btn, prims_simple_create_btn, prims_cell_create_btn, kruskal_create_btn, a_star_solve_btn, dijkstra_solve_btn, dead_end_filling_solve_btn, wall_follower_solve_btn, input_number])
+    back_btn = Button(
+        (0, 0),
+        "back",
+        action=lambda: __import__(
+            "visualization.screens.main_screen",
+            fromlist=["run_main_screen"]
+        ).run_main_screen()
+    )
+
+    config.item_to_render.extend([back_btn, dfs_create_btn, prims_simple_create_btn, prims_cell_create_btn, kruskal_create_btn, a_star_solve_btn, dijkstra_solve_btn, dead_end_filling_solve_btn, wall_follower_solve_btn, input_number])
 
     start_y = 0
     h, w = 80, 120

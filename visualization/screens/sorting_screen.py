@@ -3,6 +3,7 @@ from visualization import Button, event_handler
 from algorithms import ALGORITHMS
 from utils import random_columns_array, analyze_algorithm
 
+
 def run_sort_screen(visualize: bool = True):
 
     config.item_to_render = []
@@ -26,7 +27,16 @@ def run_sort_screen(visualize: bool = True):
                         setattr(config, "restart_run", True))
     )
 
-    config.item_to_render.extend([increase_delay_btn, next_algorithm_btn, arr_len_btn])
+    back_btn = Button(
+        (0, 0),
+        "back",
+        action=lambda: __import__(
+            "visualization.screens.main_screen",
+            fromlist=["run_main_screen"]
+        ).run_main_screen()
+    )
+
+    config.item_to_render.extend([back_btn, increase_delay_btn, next_algorithm_btn, arr_len_btn])
 
     start_x = 0
     h, w = 50, 80
